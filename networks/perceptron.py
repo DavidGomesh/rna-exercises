@@ -1,6 +1,9 @@
 
 from sys import setrecursionlimit
-setrecursionlimit(10000)
+setrecursionlimit(100000)
+
+from random import uniform
+from activation import step
 
 # Generates a prediction
 def predict(inputs, weights, bias, activation):
@@ -38,4 +41,31 @@ def updatedWeights(inputs, weights, update):
 def updatedBias(bias, update):
     return bias + update
 
+# Perceptron class
+class Perceptron:
+    def __init__(self, inputs, targets, weights=[], bias=uniform(-1, 1), learningRate=0.01, activation=step):
+        self.inputs = inputs
+        self.targets = targets
+        self.bias = bias
+        self.learningRate = learningRate
+        self.activation = activation
+        self.weights = weights if weights else [uniform(-1, 1) for _ in range(len(inputs[0]))]
 
+    def fit(self, epochs=1):
+        self.weights, self.bias = fit(
+            self.inputs,
+            self.targets,
+            self.weights,
+            self.bias,
+            self.learningRate,
+            self.activation,
+            epochs
+        )
+    
+    def predict(self, inputs):
+        return predict(
+            inputs, 
+            self.weights, 
+            self.bias, 
+            self.activation
+        )
